@@ -1,4 +1,4 @@
-yamlname: Test AWS Connection
+name: Test AWS Connection
 on: 
   workflow_dispatch:  # This makes it manually triggerable
 
@@ -16,4 +16,4 @@ jobs:
           aws-region: us-east-1
           
       - name: Test AWS CLI
-        run: aws s3 ls s3://clab-integration/
+        run: aws sts get-caller-identity
