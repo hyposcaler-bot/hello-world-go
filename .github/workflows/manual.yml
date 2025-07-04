@@ -49,9 +49,9 @@ jobs:
         run: |
           echo "Testing S3 download..."
           # Replace with your actual bucket name and file path
-          BUCKET_NAME="your-bucket-name"
-          FILE_KEY="path/to/your/file.txt"
-          LOCAL_FILE="downloaded-file.txt"
+          BUCKET_NAME="clab-integration"
+          FILE_KEY="srl02-s3.clab.yml"
+          LOCAL_FILE="srl02-s3.clab.yml"
           
           aws s3 cp s3://${BUCKET_NAME}/${FILE_KEY} ${LOCAL_FILE}
           
