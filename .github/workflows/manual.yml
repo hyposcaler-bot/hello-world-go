@@ -1,15 +1,38 @@
-name: test-aws-creds
-
+name: test-aws-credentials
 on: 
   workflow_dispatch:
-  
+    inputs:
+      aws_region:
+        description: 'AWS Region'
+        required: false
+        default: 'us-east-1'
+
 jobs:
-  test:
+  test-aws:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
-      - name: Test AWS
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      - name: Test AWS CLI
-        run: aws s3 ls s3://clab-integration/
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Check AWS CLI availability
+        run: |
+          which aws
+          aws --version
+      
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      
+      - name: Test AWS credentials
+        run: |
+          echo "Testing AWS credentials..."
+          aws sts get-caller-identity
+          echo "AWS credentials are working!"
+      
+      - name: Test basic AWS operations
+        run: |
+          aws s3 ls s3://clab-integration/srl02-s3.clab.yml
+          
