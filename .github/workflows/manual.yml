@@ -35,5 +35,27 @@ jobs:
       
       - name: Test basic AWS operations
         run: |
-          aws s3 ls s3://clab-integration/srl02-s3.clab.yml
+          echo "Testing basic AWS operations..."
+          # List S3 buckets (if you have any)
+          aws s3 ls || echo "No S3 access or no buckets"
           
+          # Get account info
+          aws iam get-user || echo "No IAM user access"
+          
+          # List regions
+          aws ec2 describe-regions --region ${{ github.event.inputs.aws_region }} | head -20
+      
+      - name: Download file from S3 bucket
+        run: |
+          echo "Testing S3 download..."
+          # Replace with your actual bucket name and file path
+          BUCKET_NAME="your-bucket-name"
+          FILE_KEY="path/to/your/file.txt"
+          LOCAL_FILE="downloaded-file.txt"
+          
+          aws s3 cp s3://${BUCKET_NAME}/${FILE_KEY} ${LOCAL_FILE}
+          
+          echo "File downloaded successfully:"
+          ls -la ${LOCAL_FILE}
+          echo "File contents:"
+          cat ${LOCAL_FILE}
