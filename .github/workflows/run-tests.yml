@@ -25,6 +25,27 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          # Install a specific version of uv.
+          version: "0.5.28"
+          enable-cache: true
+
+      - uses: actions/setup-python@v5
+        with:
+          # cache: pip
+          # cache-dependency-path: "tests/requirements.txt"
+          python-version-file: "pyproject.toml"
+
+      - name: Install the project
+        run: uv sync --all-extras --dev
+
+      - name: Activate virtualenv
+        run: |
+          . .venv/bin/activate
+          echo PATH=$PATH >> $GITHUB_ENV
+                
       - name: Run AWS tests
-        run: ./tests/run-tests.sh
+        run: ./run-tests.sh
