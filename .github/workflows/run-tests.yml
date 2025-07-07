@@ -48,4 +48,4 @@ jobs:
           echo PATH=$PATH >> $GITHUB_ENV
                 
       - name: Run AWS tests
-        run: ./run-tests.sh
+        run: ./tests/run-tests.sh
