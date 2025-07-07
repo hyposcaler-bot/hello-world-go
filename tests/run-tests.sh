@@ -2,30 +2,25 @@
 
 set -e
 
-echo "=== Checking AWS CLI availability ==="
-which aws
-aws --version
+echo "=== Running Robot Framework AWS Tests ==="
 
-echo -e "\n=== Testing AWS credentials ==="
-echo "Testing AWS credentials..."
-aws sts get-caller-identity
-echo "AWS credentials are working!"
+# Change to the tests directory
+cd "$(dirname "$0")"
 
-echo -e "\n=== Testing basic AWS operations ==="
-echo "Testing basic AWS operations..."
-# List S3 buckets (if you have any)
-aws s3 ls || echo "No S3 access or no buckets"
+# Check if robot command is available
+if ! command -v robot &> /dev/null; then
+    echo "Robot Framework is not installed. Installing..."
+    pip install robotframework
+fi
 
-echo -e "\n=== Testing S3 download ==="
-echo "Testing S3 download..."
-# Replace with your actual bucket name and file path
-BUCKET_NAME="clab-integration"
-FILE_KEY="srl02-s3.clab.yml"
-LOCAL_FILE="srl02-s3.clab.yml"
+# Run the Robot Framework tests
+echo "Executing Robot Framework tests..."
+robot --outputdir results simple-test/aws_tests.robot
 
-aws s3 cp s3://${BUCKET_NAME}/${FILE_KEY} ${LOCAL_FILE}
-
-echo "File downloaded successfully:"
-ls -la ${LOCAL_FILE}
-echo "File contents:"
-cat ${LOCAL_FILE}
+# Check the exit code
+if [ $? -eq 0 ]; then
+    echo "All tests passed successfully!"
+else
+    echo "Some tests failed. Check the results in tests/results/ directory"
+    exit 1
+fi
