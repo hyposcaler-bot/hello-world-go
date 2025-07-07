@@ -9,7 +9,7 @@ on:
 
 jobs:
   call-aws-test:
-    uses: ./.github/workflows/test-AWS-creds.yml
+    uses: ./.github/workflows/run-tests.yml
     with:
       aws_region: ${{ github.event.inputs.aws_region }}
     secrets: inherit
