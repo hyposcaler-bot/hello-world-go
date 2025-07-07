@@ -48,7 +48,9 @@ jobs:
           echo PATH=$PATH >> $GITHUB_ENV
                 
       - name: Run AWS tests
-        run: ./tests/run-tests.sh
+        run: |
+          echo $AWS_ACCESS_KEY_ID
+          ./tests/run-tests.sh
       
       - name: Upload test results
         if: always()
