@@ -1,0 +1,62 @@
+name: test-AWS-credentials
+on: 
+  workflow_dispatch:
+    inputs:
+      aws_region:
+        description: 'AWS Region'
+        required: false
+        default: 'us-east-1'
+  workflow_call:
+    inputs:
+      aws_region:
+        description: 'AWS Region'
+        required: false
+        type: string
+        default: 'us-east-1'
+
+jobs:
+  test-aws:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Check AWS CLI availability
+        run: |
+          which aws
+          aws --version
+      
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ inputs.aws_region }}
+      
+      - name: Test AWS credentials
+        run: |
+          echo "Testing AWS credentials..."
+          aws sts get-caller-identity
+          echo "AWS credentials are working!"
+      
+      - name: Test basic AWS operations
+        run: |
+          echo "Testing basic AWS operations..."
+          # List S3 buckets (if you have any)
+          aws s3 ls || echo "No S3 access or no buckets"
+      
+      - name: Download file from S3 bucket
+        run: |
+          echo "Testing S3 download..."
+          # Replace with your actual bucket name and file path
+          BUCKET_NAME="clab-integration"
+          FILE_KEY="srl02-s3.clab.yml"
+          LOCAL_FILE="srl02-s3.clab.yml"
+          
+          aws s3 cp s3://${BUCKET_NAME}/${FILE_KEY} ${LOCAL_FILE}
+          
+          echo "File downloaded successfully:"
+          ls -la ${LOCAL_FILE}
+          echo "File contents:"
+          cat ${LOCAL_FILE}
