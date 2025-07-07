@@ -1,11 +1,5 @@
 name: test-AWS-credentials
 on: 
-  workflow_dispatch:
-    inputs:
-      aws_region:
-        description: 'AWS Region'
-        required: false
-        default: 'us-east-1'
   workflow_call:
     inputs:
       aws_region:
