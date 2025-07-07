@@ -27,4 +27,4 @@ jobs:
         uses: actions/checkout@v4
       
       - name: Run AWS tests
-        run: ./run-tests.sh
+        run: ./tests/run-tests.sh

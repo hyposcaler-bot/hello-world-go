@@ -1,0 +1,10 @@
+[project]
+name = "breakme"
+version = "0.1.0"
+description = "trying to make things no work"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "robotframework==6.1.1",
+    "robotframework-sshlibrary==3.8.0",
+]
