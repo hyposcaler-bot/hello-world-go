@@ -2,6 +2,9 @@
 
 set -e
 
+export AWS_ACCESS_KEY_ID
+export AWS_SECRET_ACCESS_KEY
+
 echo "=== Running Robot Framework AWS Tests ==="
 
 # Change to the tests directory
