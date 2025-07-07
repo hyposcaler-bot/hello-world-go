@@ -24,8 +24,6 @@ robot \
     --log log.html \
     --report report.html \
     --loglevel DEBUG \
-    --consolewidth 100 \
-    --consolelog results/console.log \
     simple-test/aws_tests.robot
 
 # Check the exit code
@@ -35,7 +33,6 @@ if [ $? -eq 0 ]; then
     echo "  - HTML Log: tests/results/log.html"
     echo "  - HTML Report: tests/results/report.html"
     echo "  - XML Output: tests/results/output.xml"
-    echo "  - Console Log: tests/results/console.log"
 else
     echo "Some tests failed. Check the results in tests/results/ directory"
     exit 1
