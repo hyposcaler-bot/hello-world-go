@@ -2,6 +2,7 @@
 Documentation     AWS Credentials and S3 Operations Test Suite
 Library           OperatingSystem
 Library           Process
+Library           Collections
 
 *** Variables ***
 ${BUCKET_NAME}    clab-integration
